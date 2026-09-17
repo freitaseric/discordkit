@@ -263,6 +263,11 @@ func validateComponent(c discordgo.MessageComponent, ctx componentContext) error
 			return componentErr("file upload is only valid inside a label")
 		}
 		return validateFileUpload(v)
+	case fileUploadComponent:
+		if ctx != ctxLabel {
+			return componentErr("file upload is only valid inside a label")
+		}
+		return validateFileUpload(v.upload)
 	}
 	return componentErr("unsupported component type %d", c.Type())
 }
