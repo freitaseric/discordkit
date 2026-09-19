@@ -1,0 +1,90 @@
+---
+title: DiscordKit
+description: Build Discord applications in Go with routing, typed builders, Components V2, forms, middleware, and a predictable interaction lifecycle.
+template: splash
+
+hero:
+  tagline: An ergonomic framework for building Discord applications in Go.
+  actions:
+    - text: Get started
+      link: /getting-started/introduction/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/freitaseric/discordkit
+      icon: external
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+DiscordKit is a framework layer built on top of
+[discordgo](https://github.com/bwmarrin/discordgo).
+
+It keeps discordgo as the transport and Discord data-model layer while adding
+the application-level tools that developers commonly build themselves:
+interaction routing, typed command builders, Components V2, forms, middleware,
+custom ID routing, command synchronization, and a safer response lifecycle.
+
+<CardGrid>
+  <Card title="Built on discordgo" icon="puzzle">
+    Keep using familiar `discordgo` types and APIs. DiscordKit is additive,
+    not a replacement for the underlying library.
+  </Card>
+
+  <Card title="One interaction router" icon="branch">
+    Route slash commands, components, modal submissions, and autocomplete
+    interactions through one consistent handler model.
+  </Card>
+
+  <Card title="Typed builders" icon="puzzle">
+    Build commands, options, components, and forms through expressive Go APIs
+    with validation before requests reach Discord.
+  </Card>
+
+  <Card title="Components V2" icon="layers">
+    Compose modern Discord messages using containers, sections, text displays,
+    buttons, selects, media, files, and other Components V2 primitives.
+  </Card>
+
+  <Card title="Predictable responses" icon="check-circle">
+    DiscordKit tracks the interaction response lifecycle and catches invalid
+    operations such as acknowledging the same interaction twice.
+  </Card>
+
+  <Card title="Escape hatches included" icon="open-book">
+    Access the underlying `*discordgo.Session`, interaction, and raw Discord
+    component types whenever you need lower-level control.
+  </Card>
+</CardGrid>
+
+## Start small
+
+A minimal DiscordKit application still looks and feels like a normal discordgo
+application:
+
+```go
+s, err := discordgo.New("Bot " + os.Getenv("DISCORD_TOKEN"))
+if err != nil {
+    log.Fatal(err)
+}
+
+router := discordkit.NewRouter()
+
+router.Command("ping", func(c *discordkit.Context) error {
+    return c.ReplyText("Pong!")
+})
+
+s.AddHandler(router.Handle)
+```
+
+DiscordKit does not hide Discord or discordgo from you. It focuses on reducing
+the repetitive application infrastructure around interactions.
+
+## Where to go next
+
+If this is your first DiscordKit application, continue with
+[Getting Started](/getting-started/introduction/).
+
+If you already use discordgo, read
+[DiscordKit and discordgo](/concepts/discordkit-and-discordgo/) first to
+understand where DiscordKit fits into an existing application.
