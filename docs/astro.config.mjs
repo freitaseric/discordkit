@@ -9,6 +9,7 @@ export default defineConfig({
     customCss: ['./src/styles/docs.css'],
     components: {
       Head: './src/components/AnalyticsHead.astro',
+      SiteTitle: './src/components/BrandTitle.astro',
       PageTitle: './src/components/DocTitle.astro',
       Footer: './src/components/DocFooter.astro',
     },

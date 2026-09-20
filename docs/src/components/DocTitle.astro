@@ -1,10 +1,12 @@
 ---
+import BrandIntro from "./BrandIntro.astro";
 const { entry } = Astro.locals.starlightRoute;
 const pt = Astro.url.pathname.startsWith('/pt-br');
 const home = pt ? '/pt-br/' : '/';
+const isHome = /^\/(pt-br\/?)?$/.test(Astro.url.pathname);
 const raw = `/markdown/${entry.id || "index"}.txt`;
 ---
-<div class="doc-intro">
+{isHome ? <BrandIntro /> : <div class="doc-intro">
   <a class="doc-crumb" href={home}>{pt ? 'Documentação' : 'Documentation'} <span aria-hidden="true">/</span> DiscordKit</a>
   <h1 id="_top">{entry.data.title}</h1>
   {entry.data.description && <p class="doc-description">{entry.data.description}</p>}
@@ -13,7 +15,7 @@ const raw = `/markdown/${entry.id || "index"}.txt`;
     <a href={raw} target="_blank" rel="noopener">{pt ? 'Abrir texto' : 'Open text'} <span aria-hidden="true">↗︎</span></a>
     <span role="status" aria-live="polite" class="copy-status"></span>
   </div>
-</div>
+</div>}
 <script>
   document.addEventListener('click', async (event) => {
     const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-copy-doc]');

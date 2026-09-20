@@ -1,21 +1,33 @@
+@import '@fontsource-variable/inter/index.css';
+@import '@fontsource-variable/space-grotesk/index.css';
+@import '@fontsource-variable/jetbrains-mono/index.css';
+
 :root {
-  --sl-font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --sl-color-accent-low: #182d2c;
-  --sl-color-accent: #26958b;
-  --sl-color-accent-high: #70c9bd;
-  --sl-color-white: #eeedef;
-  --sl-color-gray-1: #d9d9df;
-  --sl-color-gray-2: #b6b6c0;
-  --sl-color-gray-3: #91919e;
-  --sl-color-gray-4: #575761;
-  --sl-color-gray-5: #28282f;
-  --sl-color-gray-6: #17171c;
-  --sl-color-black: #111115;
-  --sl-color-bg-nav: #111115;
-  --sl-color-bg-sidebar: #141419;
+  --brand-mint: #38D9B0;
+  --brand-graphite: #141719;
+  --brand-mist: #F4F5F0;
+  --brand-slate: #9DAAA5;
+  --brand-amber: #E9B65C;
+  --brand-symbol: var(--brand-mint);
+  --sl-font: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --sl-font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --sl-color-accent-low: #193a32;
+  --sl-color-accent: #38D9B0;
+  --sl-color-accent-high: #38D9B0;
+  --sl-color-white: #F4F5F0;
+  --sl-color-gray-1: #e0e6e2;
+  --sl-color-gray-2: #bac7c1;
+  --sl-color-gray-3: #9DAAA5;
+  --sl-color-gray-4: #60746a;
+  --sl-color-gray-5: #313b36;
+  --sl-color-gray-6: #1b2220;
+  --sl-color-black: #141719;
+  --sl-color-bg-nav: #141719;
+  --sl-color-bg-sidebar: #191e1e;
+  --sl-color-text-accent: #38D9B0;
   --sl-sidebar-width: 17rem;
   --sl-content-width: 49rem;
-  --sl-nav-height: 3.5rem;
+  --sl-nav-height: 3.75rem;
   --sl-text-h1: 2rem;
   --sl-text-h2: 1.45rem;
   --sl-text-h3: 1.125rem;
@@ -23,28 +35,29 @@
   --sl-line-height: 1.7;
 }
 :root[data-theme='light'] {
-  --sl-color-accent-low: #e3f3ef;
-  --sl-color-accent: #0f766e;
-  --sl-color-accent-high: #115e59;
-  --sl-color-white: #17171c;
-  --sl-color-gray-1: #28282f;
-  --sl-color-gray-2: #41414c;
-  --sl-color-gray-3: #656571;
-  --sl-color-gray-4: #92929f;
-  --sl-color-gray-5: #dedee5;
-  --sl-color-gray-6: #f6f6f8;
-  --sl-color-black: #fff;
-  --sl-color-bg-nav: #fff;
-  --sl-color-bg-sidebar: #fafafa;
+  --brand-symbol: #0c7560;
+  --sl-color-accent-low: #dcf3e9;
+  --sl-color-accent: #0c7560;
+  --sl-color-accent-high: #095c4c;
+  --sl-color-text-accent: #095c4c;
+  --sl-color-white: #141719;
+  --sl-color-gray-1: #27362e;
+  --sl-color-gray-2: #40564a;
+  --sl-color-gray-3: #566b60;
+  --sl-color-gray-4: #82988c;
+  --sl-color-gray-5: #d5ddd6;
+  --sl-color-gray-6: #eaf0e8;
+  --sl-color-black: #F4F5F0;
+  --sl-color-bg-nav: #F4F5F0;
+  --sl-color-bg-sidebar: #edf0e9;
 }
-.site-title { font-size: 1rem; font-weight: 650; letter-spacing: -.02em; }
 .sidebar-pane { border-inline-end: 1px solid var(--sl-color-gray-5); }
 .sidebar-content { padding-top: 1.25rem; }
 .sidebar-content a { border-radius: 5px; font-size: .875rem; padding-block: .4rem; }
 .sidebar-content summary .large { font-size: .875rem; font-weight: 600; }
-.sidebar-content a[aria-current='page'] { color: var(--sl-color-accent-high); background: var(--sl-color-accent-low); font-weight: 500; box-shadow: inset 2px 0 var(--sl-color-accent); }
+.sidebar-content a[aria-current='page'] { color: var(--sl-color-accent-high); background: var(--sl-color-accent-low); font-weight: 500; box-shadow: inset 2px 0 var(--sl-color-accent-high); }
 .sidebar-content ul ul { border-inline-start: 1px solid var(--sl-color-gray-5); }
-h1,h2,h3 { letter-spacing: -.025em; }
+h1,h2,h3, .doc-grid strong { font-family: 'Space Grotesk Variable', sans-serif; letter-spacing: -.035em; }
 .doc-crumb { font-size: .8rem; text-decoration: none; color: var(--sl-color-accent-high); }
 .doc-crumb span { padding-inline: .5rem; color: var(--sl-color-gray-3); }
 .doc-intro h1 { margin: 1.1rem 0 .7rem; font-size: var(--sl-text-h1); line-height: 1.2; font-weight: 650; }
@@ -54,17 +67,17 @@ h1,h2,h3 { letter-spacing: -.025em; }
 .doc-tools :is(a,button):hover { border-color: var(--sl-color-accent); }
 .copy-status { font-size: .75rem; color: var(--sl-color-gray-2); }
 .doc-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .875rem; margin-block: 1.5rem; }
-.doc-grid a { display: flex; flex-direction: column; gap: .6rem; padding: 1.1rem; border: 1px solid var(--sl-color-gray-5); border-radius: 7px; text-decoration: none; color: var(--sl-color-white); background: var(--sl-color-bg-sidebar); transition: border-color 160ms, background-color 160ms; }
+.doc-grid a { display: flex; flex-direction: column; gap: .6rem; padding: 1.1rem; border: 1px solid var(--sl-color-gray-5); border-radius: 6px; text-decoration: none; color: var(--sl-color-white); background: var(--sl-color-bg-sidebar); transition: border-color 160ms, background-color 160ms; }
 .doc-grid a:hover { border-color: var(--sl-color-accent); background: var(--sl-color-gray-6); }
 .doc-grid strong { font-size: .95rem; font-weight: 600; }
 .doc-grid span { color: var(--sl-color-gray-2); font-size: .875rem; line-height: 1.6; }
 .doc-grid a::before { content: '↗'; color: var(--sl-color-accent-high); font-size: 1rem; }
 .sl-markdown-content .doc-grid > * { margin: 0; }
 .sl-markdown-content code:not(pre code) { border-radius: 4px; }
-.pagination-links a { border-radius: 7px; box-shadow: none; }
+.pagination-links a { border-radius: 6px; box-shadow: none; }
 .pagination-links .link-title { font-size: 1rem; }
 .right-sidebar-panel { font-size: .8rem; }
-.expressive-code { --ec-brdRad: 7px; }
+.expressive-code { --ec-brdRad: 6px; }
 @media(min-width: 50rem) { .content-panel:first-child { padding-top: 3rem; } }
 @media(max-width: 35rem) { .doc-grid { grid-template-columns: 1fr; } .doc-intro h1 { font-size: 1.8rem; } }
 @media(prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition: none !important; } }
@@ -75,3 +88,9 @@ h1,h2,h3 { letter-spacing: -.025em; }
 }
 .doc-grid a::before { content: '\2197\FE0E'; }
 .doc-tools a span { font-variant-emoji: text; }
+
+:focus-visible { outline: 2px solid var(--sl-color-accent-high); outline-offset: 4px; }
+.doc-grid a { border-color: transparent; }
+.doc-grid a:hover { border-color: var(--sl-color-accent); }
+.starlight-aside--caution { --sl-color-asides: var(--brand-amber); border-inline-start-color: #b67d23; }
+:root[data-theme='light'] .starlight-aside--caution { --sl-color-asides: #80551b; }

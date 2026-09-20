@@ -1,0 +1,38 @@
+---
+import Mark from '../assets/brand-mark.svg';
+const pt = Astro.url.pathname.startsWith('/pt-br');
+const base = pt ? '/pt-br' : '';
+---
+<section class="brand-hero">
+  <div class="brand-hero-copy">
+    <p class="brand-eyebrow">DISCORDKIT / {pt ? 'FRAMEWORK PARA GO' : 'GO FRAMEWORK'}</p>
+    <div class="brand-lockup"><Mark aria-hidden="true" width="62" height="62" /><span>DiscordKit</span></div>
+    <h1 id="_top">{pt ? 'Bots bem construídos.' : 'Well-built bots.'}</h1>
+    <p class="brand-lead">{pt ? 'Comandos, componentes e interações. Peças que se conectam para você construir seu próximo bot em Go.' : 'Commands, components and interactions. Connected building blocks for your next Discord bot in Go.'}</p>
+    <div class="brand-actions">
+      <a class="brand-primary" href={`${base}/getting-started/first-bot/`}>{pt ? 'Crie seu primeiro bot' : 'Build your first bot'} <span aria-hidden="true">→</span></a>
+      <a class="brand-secondary" href={`${base}/cookbook/`}>{pt ? 'Explore o cookbook' : 'Explore the cookbook'} <span aria-hidden="true">↗︎</span></a>
+    </div>
+    <code class="brand-install">go get github.com/freitaseric/discordkit</code>
+  </div>
+  <div class="brand-motif" aria-hidden="true"><Mark /><Mark /><Mark /><Mark /></div>
+</section>
+<style>
+.brand-hero { position: relative; overflow: hidden; isolation: isolate; padding: clamp(1.5rem,4vw,2.75rem); background: #141719; border-radius: 6px; color: #F4F5F0; }
+.brand-hero-copy { position: relative; z-index: 1; }
+.brand-eyebrow { font-size: .65rem; letter-spacing: .16em; font-weight: 600; color: #9DAAA5; margin: 0 0 1.8rem; }
+.brand-lockup { display: flex; gap: .85rem; align-items: center; font-family: 'Space Grotesk Variable', sans-serif; font-size: clamp(2rem,4vw,3.5rem); font-weight: 700; letter-spacing: -.06em; line-height: 1; }
+.brand-lockup svg { color: #38D9B0; flex-shrink: 0; width: clamp(2.7rem,5vw,3.875rem); height: auto; }
+h1 { color: #F4F5F0; font-family: 'Space Grotesk Variable', sans-serif; font-size: clamp(1.6rem,3vw,2.35rem); font-weight: 500; letter-spacing: -.04em; line-height: 1.2; margin: 1.5rem 0 .8rem; }
+.brand-lead { max-width: 43ch; color: #c3cec9; font-size: .95rem; line-height: 1.75; margin: 0; }
+.brand-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1.1rem; margin-top: 1.75rem; }
+.brand-actions a { display: inline-flex; gap: .6rem; align-items: center; font-size: .85rem; font-weight: 600; text-decoration: none; border-radius: 6px; padding: .7rem .9rem; }
+.brand-primary { background: #38D9B0; color: #141719; }
+.brand-primary:hover { background: #75e6c9; }
+.brand-secondary { color: #F4F5F0; }
+.brand-secondary:hover { color: #38D9B0; }
+.brand-install { display: block; width: fit-content; max-width: 100%; overflow-x: auto; white-space: nowrap; margin-top: 1.75rem; color: #9DAAA5; font-family: 'JetBrains Mono Variable', monospace; font-size: .72rem; background: none; }
+.brand-motif { position: absolute; display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; width: 260px; right: -110px; top: 90px; color: #38D9B0; opacity: .07; z-index: 0; pointer-events: none; }
+.brand-motif svg { width: 100%; }
+@media(max-width: 35rem) { .brand-motif { opacity: .04; right: -160px; } .brand-actions { align-items: stretch; flex-direction: column; } .brand-install { font-size: .6rem; } }
+</style>

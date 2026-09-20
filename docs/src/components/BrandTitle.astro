@@ -1,0 +1,12 @@
+---
+import Mark from '../assets/brand-mark.svg';
+const home = Astro.url.pathname.startsWith('/pt-br') ? '/pt-br/' : '/';
+---
+<a class="site-title brand-title" href={home} aria-label="DiscordKit">
+  <Mark class="brand-symbol" aria-hidden="true" width="32" height="32" />
+  <span>DiscordKit</span>
+</a>
+<style>
+.brand-title { display: inline-flex; align-items: center; gap: .65rem; color: var(--sl-color-white); text-decoration: none; font-family: 'Space Grotesk Variable', sans-serif; font-size: 1.25rem; font-weight: 700; letter-spacing: -.055em; white-space: nowrap; }
+.brand-symbol { color: var(--brand-symbol); flex-shrink: 0; }
+</style>
