@@ -47,6 +47,8 @@ export default defineConfig({
 					items: [
 						{ slug: 'concepts/discordkit-and-discordgo' },
 						{ slug: 'concepts/interaction-model' },
+						{ slug: 'concepts/router' },
+						{ slug: 'reference/api-overview' },
 					],
 				},
 			],
