@@ -2,8 +2,7 @@
 
 title: Introdução
 description: Entenda o que é o DiscordKit, quais problemas ele resolve e como ele se relaciona com o discordgo.
----------------------------------------------------------------------------------------------------------------
-
+---
 DiscordKit é uma camada de framework ergonômica para o desenvolvimento de
 aplicações para Discord em Go.
 
@@ -174,5 +173,5 @@ discordgo existentes que desejam uma camada de aplicação mais estruturada.
 
 ## Próximo passo
 
-Continue em [Instalação](./installation/) para adicionar o DiscordKit a um
+Continue em [Instalação](../installation/) para adicionar o DiscordKit a um
 projeto Go.

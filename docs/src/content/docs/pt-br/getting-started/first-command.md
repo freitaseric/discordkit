@@ -2,8 +2,7 @@
 
 title: Seu primeiro comando
 description: Declare, sincronize, roteie e trate seu primeiro Application Command do Discord com DiscordKit.
-------------------------------------------------------------------------------------------------------------
-
+---
 Neste guia, você criará um comando `/ping` e conectará sua declaração a um handler do DiscordKit.
 
 Isso apresenta um conceito importante do framework:

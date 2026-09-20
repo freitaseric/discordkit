@@ -94,6 +94,8 @@ func main() {
 		log.Fatalf("criar sessão Discord: %v", err)
 	}
 
+	session.Identify.Intents = discordgo.IntentsGuilds
+
 	router := discordkit.NewRouter(
 		discordkit.Recovery(),
 		discordkit.Logging(nil),
@@ -190,6 +192,6 @@ Registrar a rota e publicar o comando são etapas separadas: a rota trata a inte
 
 - Veja como o Router funciona em [Router](/pt-br/concepts/router/).
 - Entenda as respostas e o ciclo de vida das interações em [Modelo de interações](/pt-br/concepts/interaction-model/).
-- Continue em [Seu primeiro comando](./first-command/) para entender a declaração, sincronização e roteamento de comandos em mais detalhes.
+- Continue em [Seu primeiro comando](../first-command/) para entender a declaração, sincronização e roteamento de comandos em mais detalhes.
 
 Para produção, mantenha o token em um gerenciador de segredos, execute o processo sob um supervisor e sincronize comandos globais deliberadamente.

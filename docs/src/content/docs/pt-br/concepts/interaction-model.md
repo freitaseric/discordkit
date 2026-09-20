@@ -2,8 +2,7 @@
 
 title: O modelo de interações
 description: Entenda como interações do Discord percorrem discordgo, Router, middleware, Context e handlers no DiscordKit.
---------------------------------------------------------------------------------------------------------------------------
-
+---
 Grande parte do DiscordKit é construída em torno de uma ideia:
 
 **o Discord envia interações, e sua aplicação as encaminha para handlers.**

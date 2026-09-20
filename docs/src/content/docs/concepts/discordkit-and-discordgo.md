@@ -2,8 +2,7 @@
 
 title: DiscordKit and discordgo
 description: Understand what DiscordKit abstracts, what discordgo continues to provide, and when to use each layer.
--------------------------------------------------------------------------------------------------------------------
-
+---
 DiscordKit and discordgo solve different parts of the same problem.
 
 DiscordKit is built **on top of** discordgo and intentionally keeps the

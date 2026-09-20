@@ -2,8 +2,7 @@
 
 title: Router
 description: Learn how DiscordKit resolves commands, components, modals, autocomplete interactions, middleware, groups, and route parameters.
----------------------------------------------------------------------------------------------------------------------------------------------
-
+---
 The `Router` is the central interaction dispatcher in DiscordKit.
 
 It maps incoming Discord interactions to application handlers.
@@ -463,4 +462,4 @@ The resulting application uses one routing model for several Discord interaction
 
 ## Next step
 
-Continue with [Context](/concepts/context/) to learn how handlers access interaction data, route parameters, users, channels, roles, attachments, and request-scoped values.
+Continue with [Context](/reference/api-overview/) to learn how handlers access interaction data, route parameters, users, channels, roles, attachments, and request-scoped values.

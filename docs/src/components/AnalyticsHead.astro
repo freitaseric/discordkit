@@ -1,10 +1,4 @@
 ---
-import Analytics from '@vercel/analytics/astro';
-import SpeedInsights from '@vercel/speed-insights/astro';
-
-const { head } = Astro.locals.starlightRoute;
+import Head from '@astrojs/starlight/components/Head.astro';
 ---
-
-{head.map(({ tag: Tag, attrs, content }) => <Tag {...attrs} set:html={content} />)}
-<Analytics />
-<SpeedInsights />
+<Head />

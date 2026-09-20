@@ -2,8 +2,7 @@
 
 title: Your first command
 description: Define, synchronize, route, and handle your first Discord application command with DiscordKit.
------------------------------------------------------------------------------------------------------------
-
+---
 In this guide, you will create a `/ping` command and connect its declaration to a DiscordKit handler.
 
 This introduces an important DiscordKit concept:

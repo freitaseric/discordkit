@@ -94,6 +94,8 @@ func main() {
 		log.Fatalf("create Discord session: %v", err)
 	}
 
+	session.Identify.Intents = discordgo.IntentsGuilds
+
 	router := discordkit.NewRouter(
 		discordkit.Recovery(),
 		discordkit.Logging(nil),
@@ -190,6 +192,6 @@ Registering a route and publishing a command are separate steps: the route handl
 
 - Learn how the Router works in [Router](/concepts/router/).
 - Understand responses and the interaction lifecycle in [The interaction model](/concepts/interaction-model/).
-- Continue with [Your first command](./first-command/) to learn more about command declaration, synchronization, and routing.
+- Continue with [Your first command](../first-command/) to learn more about command declaration, synchronization, and routing.
 
 For production, keep the token in a secrets manager, run the process under a supervisor, and synchronize global commands deliberately.

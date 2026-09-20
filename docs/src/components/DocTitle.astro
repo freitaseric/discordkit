@@ -1,0 +1,32 @@
+---
+const { entry } = Astro.locals.starlightRoute;
+const pt = Astro.url.pathname.startsWith('/pt-br');
+const home = pt ? '/pt-br/' : '/';
+const raw = `/markdown/${entry.id || "index"}.txt`;
+---
+<div class="doc-intro">
+  <a class="doc-crumb" href={home}>{pt ? 'Documentação' : 'Documentation'} <span aria-hidden="true">/</span> DiscordKit</a>
+  <h1 id="_top">{entry.data.title}</h1>
+  {entry.data.description && <p class="doc-description">{entry.data.description}</p>}
+  <div class="doc-tools" data-pagefind-ignore>
+    <button type="button" data-copy-doc={raw} data-done={pt ? 'Copiado!' : 'Copied!'} data-failed={pt ? 'Não foi possível copiar' : 'Could not copy'}>{pt ? 'Copiar Markdown' : 'Copy Markdown'}</button>
+    <a href={raw} target="_blank" rel="noopener">{pt ? 'Abrir texto' : 'Open text'} <span aria-hidden="true">↗</span></a>
+    <span role="status" aria-live="polite" class="copy-status"></span>
+  </div>
+</div>
+<script>
+  document.addEventListener('click', async (event) => {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-copy-doc]');
+    if (!button || button.disabled) return;
+    const status = button.parentElement?.querySelector('.copy-status');
+    button.disabled = true;
+    try {
+      const response = await fetch(button.dataset.copyDoc!);
+      if (!response.ok) throw new Error('Unable to load Markdown');
+      await navigator.clipboard.writeText(await response.text());
+      if (status) status.textContent = button.dataset.done!;
+    } catch {
+      if (status) status.textContent = button.dataset.failed!;
+    } finally { button.disabled = false; }
+  });
+</script>

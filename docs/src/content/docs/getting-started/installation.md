@@ -2,8 +2,7 @@
 
 title: Installation
 description: Install DiscordKit and prepare a Go project to build Discord applications.
----------------------------------------------------------------------------------------
-
+---
 DiscordKit is distributed as a standard Go module.
 
 ## Requirements
@@ -121,4 +120,4 @@ go get github.com/freitaseric/discordkit@VERSION
 ## Next step
 
 Now build a complete connection to Discord in
-[Your first bot](./first-bot/).
+[Your first bot](../first-bot/).

@@ -2,8 +2,7 @@
 
 title: The interaction model
 description: Understand how Discord interactions travel through discordgo, the DiscordKit Router, middleware, Context, and application handlers.
-------------------------------------------------------------------------------------------------------------------------------------------------
-
+---
 Most of DiscordKit is built around one idea:
 
 **Discord sends interactions, and your application routes them to handlers.**
