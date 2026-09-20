@@ -39,7 +39,7 @@ export default defineConfig({
 					items: [
 						{ slug: 'getting-started/introduction' },
 						{ slug: 'getting-started/installation' },
-						{ slug: 'getting-started/first-bot', label: 'Cookbook: Build your first bot', translations: { 'pt-BR': 'Cookbook: Seu primeiro bot' } },
+						{ slug: 'getting-started/first-bot' },
 						{ slug: 'getting-started/first-command' },
 					],
 				},
