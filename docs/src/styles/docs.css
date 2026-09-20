@@ -68,3 +68,10 @@ h1,h2,h3 { letter-spacing: -.025em; }
 @media(min-width: 50rem) { .content-panel:first-child { padding-top: 3rem; } }
 @media(max-width: 35rem) { .doc-grid { grid-template-columns: 1fr; } .doc-intro h1 { font-size: 1.8rem; } }
 @media(prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; transition: none !important; } }
+/* Keep the reading column anchored to the navigation, as in topic-based docs. */
+@media(min-width: 72rem) {
+  .main-pane .sl-container { margin-inline: 0; }
+  header .header { grid-template-columns: calc(var(--sl-sidebar-width) - 2 * var(--sl-nav-pad-x)) 1fr auto; }
+}
+.doc-grid a::before { content: '\2197\FE0E'; }
+.doc-tools a span { font-variant-emoji: text; }

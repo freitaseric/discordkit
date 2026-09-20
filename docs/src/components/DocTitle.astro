@@ -10,7 +10,7 @@ const raw = `/markdown/${entry.id || "index"}.txt`;
   {entry.data.description && <p class="doc-description">{entry.data.description}</p>}
   <div class="doc-tools" data-pagefind-ignore>
     <button type="button" data-copy-doc={raw} data-done={pt ? 'Copiado!' : 'Copied!'} data-failed={pt ? 'Não foi possível copiar' : 'Could not copy'}>{pt ? 'Copiar Markdown' : 'Copy Markdown'}</button>
-    <a href={raw} target="_blank" rel="noopener">{pt ? 'Abrir texto' : 'Open text'} <span aria-hidden="true">↗</span></a>
+    <a href={raw} target="_blank" rel="noopener">{pt ? 'Abrir texto' : 'Open text'} <span aria-hidden="true">↗︎</span></a>
     <span role="status" aria-live="polite" class="copy-status"></span>
   </div>
 </div>
