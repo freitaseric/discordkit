@@ -6,6 +6,10 @@ export default defineConfig({
 		starlight({
 			title: 'DiscordKit',
 
+			components: {
+				Head: './src/components/AnalyticsHead.astro',
+			},
+
 			description:
 				'An ergonomic framework for building Discord applications in Go.',
 
