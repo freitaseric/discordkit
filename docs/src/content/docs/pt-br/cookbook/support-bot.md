@@ -1,160 +1,48 @@
 ---
-title: "Crie um bot de atendimento"
-description: "Um bot completo com painel de ajuda, respostas privadas e verificação de permissões."
+title: "O projeto: uma central de atendimento"
+description: "O que vamos construir, como estudar e como executar cada etapa."
 ---
 
-Esta receita cria uma central de ajuda para seu servidor: `/help` abre um painel privado, `/panel` publica o painel para todos e os botões respondem perguntas frequentes de forma privada. Apenas membros com Gerenciar Mensagens ou Administrador podem publicar o painel público.
+Vamos construir um bot que resolve um fluxo completo: um membro abre um chamado, acompanha o atendimento, a equipe assume o trabalho e o solicitante avalia a solução. Os registros continuam disponíveis depois de reiniciar o processo.
 
-## 1. Prepare a aplicação
+O resultado é um **registro de chamados dentro do Discord**, com interfaces privadas. Ele não cria canais privados, não encaminha uma conversa em tempo real e não promete notificar automaticamente o solicitante. A equipe consulta a fila, vê quem abriu o chamado e combina o atendimento no servidor. Essas distinções importam para você saber o que está entregando.
 
-Conclua os passos 1 e 2 de [Seu primeiro bot](/pt-br/getting-started/first-bot/): crie a aplicação, instale com `bot` e `applications.commands` e crie o módulo Go. Dê ao bot acesso ao canal de destino e permissão para enviar mensagens. Configure `DISCORD_TOKEN` e `DISCORD_GUILD_ID`.
+## Como seguir o guia
 
-No Developer Portal, deixe Interactions Endpoint URL vazio: este bot recebe interações pelo Gateway. Não precisa de intents privilegiadas.
+Você precisa saber criar arquivos, executar comandos no terminal e reconhecer funções, structs e erros em Go. Explicaremos as decisões de organização e as APIs usadas. Se nunca conectou um bot, comece pelo capítulo de preparação.
 
-## 2. Crie main.go
+Há dois modos de estudar:
 
-Substitua o `main.go` inteiro pelo programa abaixo. Ele contém todos os handlers; não precisa de outros arquivos Go nem de banco de dados. Há uma cópia em [examples/support-bot/main.go](https://github.com/freitaseric/discordkit/blob/main/examples/support-bot/main.go).
+- **Acompanhado:** clone o projeto, comece na etapa 1 e ative uma funcionalidade por vez. Leia e altere os arquivos indicados em cada capítulo. O esqueleto completo já existe para que cada parada compile.
+- **Reconstrução:** depois da primeira leitura, crie seu próprio módulo e reescreva os arquivos por responsabilidade. As páginas mostram o código completo de cada arquivo; o capítulo de operação explica como trocar o caminho do módulo.
 
-```go title="main.go"
-package main
+`COOKBOOK_STAGE` é uma ferramenta didática. Não é feature flag da DiscordKit nem sistema de migração. Ele decide quais comandos e rotas são registrados. O padrão é `6`, o bot completo. Aumente a etapa ao terminar o exercício; pare com Ctrl+C antes de iniciar novamente. Voltar a uma etapa anterior não apaga comandos antigos do Discord, porque a sincronização é propositalmente não destrutiva.
 
-import (
-	"fmt"
-	"log"
-	"os"
-	"os/signal"
-	"strings"
-	"syscall"
+| Capítulo | Etapa executável | O que você entrega |
+| --- | --- | --- |
+| [01 · Preparação](/pt-br/cookbook/setup/) | 1 | Aplicação instalada e `/ping` funcionando |
+| [02 · Arquitetura](/pt-br/cookbook/architecture/) | 1 | Configuração, ciclo de vida e módulos compreendidos |
+| [03 · Comandos](/pt-br/cookbook/commands/) | 2 | Opções tipadas, respostas públicas e privadas |
+| [04 · Painel](/pt-br/cookbook/components/) | 3 | Central pública, FAQ privado e permissões |
+| [05 · JSON-db](/pt-br/cookbook/persistence/) | 3 + testes | Repositório persistente com regras de acesso |
+| [06 · Chamados](/pt-br/cookbook/tickets/) | 4 | Modal, custom IDs, atribuição e encerramento |
+| [07 · Fila](/pt-br/cookbook/queue/) | 5 | Filtro, paginação e autocomplete autorizado |
+| [08 · Operação](/pt-br/cookbook/operations/) | 6 | Avaliação, exportação, testes e hospedagem |
+| [09 · Laboratório](/pt-br/cookbook/laboratory/) | 6 | Opções resolvidas, menus de contexto e mídia |
+| [Mapa da API](/pt-br/cookbook/api-map/) | Consulta | Onde cada família da API aparece e seus limites |
 
-	"github.com/bwmarrin/discordgo"
-	"github.com/freitaseric/discordkit"
-)
+## Três camadas, três responsabilidades
 
-func main() {
-	if err := run(); err != nil {
-		log.Fatal(err)
-	}
-}
+**Go** fornece módulos, pacotes, structs, interfaces, goroutines, mutex, JSON e arquivos. **discordgo** conecta o Gateway e expõe os tipos e endpoints do Discord. **DiscordKit** organiza o fluxo de interações: builders, roteamento, contexto, middleware e respostas.
 
-func run() error {
-	token := strings.TrimSpace(os.Getenv("DISCORD_TOKEN"))
-	guildID := strings.TrimSpace(os.Getenv("DISCORD_GUILD_ID"))
-	if token == "" || guildID == "" {
-		return fmt.Errorf("set DISCORD_TOKEN and DISCORD_GUILD_ID")
-	}
-	commands, err := discordkit.BuildCommands(
-		discordkit.Command("ping", "Check the bot connection"),
-		discordkit.Command("help", "Show private help"),
-		discordkit.Command("panel", "Publish a support panel (Manage Messages required)"),
-	)
-	if err != nil {
-		return err
-	}
+O JSON-db é código deste aplicativo. Não estamos adicionando uma abstração de banco à biblioteca. Também não há uma camada mágica de injeção de dependências: `main` constrói o store e o entrega ao bot.
 
-	session, err := discordgo.New("Bot " + token)
-	if err != nil {
-		return err
-	}
-	session.Identify.Intents = discordgo.IntentsGuilds
-	router := discordkit.NewRouter(discordkit.Logging(nil))
-	router.OnError(func(c *discordkit.Context, err error) {
-		log.Printf("interaction failed: %v", err)
-		// A reply may fail if the interaction was already acknowledged.
-		if replyErr := c.EphemeralText("Could not complete this action. Please try again."); replyErr != nil {
-			log.Printf("error reply failed: %v", replyErr)
-		}
-	})
-	if err := router.Command("ping", func(c *discordkit.Context) error {
-		return c.EphemeralText("Pong!")
-	}); err != nil {
-		return err
-	}
-	if err := router.Command("help", func(c *discordkit.Context) error {
-		return c.Ephemeral(panel())
-	}); err != nil {
-		return err
-	}
-	if err := router.Command("panel", func(c *discordkit.Context) error {
-		member := c.Member()
-		if member == nil || member.Permissions&(discordgo.PermissionManageMessages|discordgo.PermissionAdministrator) == 0 {
-			return c.EphemeralText("You need Manage Messages to publish this panel.")
-		}
-		return c.Reply(panel())
-	}); err != nil {
-		return err
-	}
-	if err := router.Component("/help/:topic", func(c *discordkit.Context) error {
-		topic, err := c.RequireParam("topic")
-		if err != nil {
-			return err
-		}
-		switch topic {
-		case "rules":
-			return c.EphemeralText("Be respectful. Avoid spam. Read pinned messages before posting.")
-		case "support":
-			return c.EphemeralText("Ask your question in the support channel with steps to reproduce. Never share tokens.")
-		default:
-			return c.EphemeralText("Unknown help topic.")
-		}
-	}); err != nil {
-		return err
-	}
+## Critérios de conclusão
 
-	session.AddHandler(router.Handle)
-	if err := session.Open(); err != nil {
-		return err
-	}
-	defer session.Close()
-	plan, err := discordkit.SyncCommands(session, session.State.User.ID, commands,
-		discordkit.SyncOptions{GuildID: guildID})
-	if err != nil {
-		return err
-	}
-	log.Printf("ready: %d created, %d updated, %d unchanged", len(plan.Create), len(plan.Update), len(plan.Unchanged))
-	stop := make(chan os.Signal, 1)
-	signal.Notify(stop, os.Interrupt, syscall.SIGTERM)
-	defer signal.Stop(stop)
-	<-stop
-	return nil
-}
+Ao terminar, você deve conseguir abrir e consultar um chamado, impedir outro membro de acessá-lo, assumir como atendente, encerrar como autor ou equipe, avaliar como autor, reiniciar sem perder os dados e exportar apenas os registros autorizados. Além disso, deve conseguir explicar por que `ShowModal` não vem depois de `Defer` e por que um custom ID não substitui uma autorização.
 
-func panel() discordkit.MessageSpec {
-	return discordkit.MessageSpec{
-		Components: discordkit.Components(
-			discordkit.Text("## Help center\nChoose a topic below. Only you can see the answer."),
-			discordkit.Row(
-				discordkit.Button("Server rules", "/help/rules").Secondary(),
-				discordkit.Button("Get support", "/help/support").Primary(),
-				discordkit.LinkButton("DiscordKit docs", "https://discordkit.freitaseric.com"),
-			),
-		),
-	}
-}
-```
+[Código executável completo](https://github.com/freitaseric/discordkit/tree/main/examples/community-bot). Os blocos deste guia são sincronizados com os arquivos do exemplo e conferidos no CI.
 
-## 3. Execute e confira
+---
 
-Carregue as variáveis de ambiente como mostrado no tutorial do primeiro bot e execute:
-
-```bash
-go mod tidy
-go run .
-```
-
-1. Aguarde `ready` no terminal.
-2. Execute `/ping`: somente você deve ver `Pong!`.
-3. Execute `/help`: o painel privado exibe três botões.
-4. Clique em Server rules e Get support: cada um retorna uma resposta privada.
-5. Com Gerenciar Mensagens, execute `/panel` em um canal de ajuda. Outros membros poderão clicar nele.
-6. Teste `/panel` com um membro comum: ele deve receber uma mensagem de permissão.
-7. Reinicie o bot e clique no painel existente. Os custom IDs estáveis continuam funcionando após a reinicialização.
-
-O painel público permanece no Discord até ser excluído. Ele não é recriado na inicialização. Não execute `/panel` repetidamente, a menos que queira vários painéis.
-
-## 4. Adapte para seu servidor
-
-Troque as respostas no `switch`, o texto do painel e a URL do link. Para adicionar um assunto, acrescente um botão e um case correspondente. A rota `/help/:topic` atende todos os assuntos. Cada row aceita no máximo cinco botões.
-
-Este bot oferece orientações estáticas; não cria tickets nem persiste conversas. Se adicionar armazenamento de tickets, mantenha verificações de autorização no handler e faça defer antes de acessar um banco de dados demorado.
-
-Continue em [Hospedando o bot](/pt-br/guides/deployment/) para mantê-lo online. Pressione Ctrl+C para encerrá-lo localmente.
+[Próximo →: 01 · Prepare e conecte o bot](/pt-br/cookbook/setup/)

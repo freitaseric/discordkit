@@ -12,6 +12,14 @@ DiscordKit never wraps discordgo's domain types. A user is a
 into plain discordgo structs, so you can always drop down to the underlying
 library.
 
+## Learn by building
+
+Follow the [cookbook in English](https://discordkit.freitaseric.com/cookbook/)
+or [português](https://discordkit.freitaseric.com/pt-br/cookbook/): build a modular
+support bot with ticket forms, authorization, a local JSON store, filters,
+autocomplete, ratings, exports, tests and deployment guidance.
+The [executable project](examples/community-bot) has six runnable learning stages.
+
 ## Installation
 
 ```bash

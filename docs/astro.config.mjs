@@ -113,21 +113,46 @@ export default defineConfig({
     },
     {
         "label": "Cookbook",
-        "translations": {
-            "pt-BR": "Cookbook"
-        },
+        "translations": {"pt-BR": "Cookbook"},
         "collapsed": false,
         "items": [
-            {
-                "slug": "cookbook"
-            },
-            {
-                "slug": "cookbook/support-bot"
-            },
-            {
-                "slug": "guides/deployment"
-            }
-        ]
+    {
+        "slug": "cookbook"
+    },
+    {
+        "slug": "cookbook/support-bot"
+    },
+    {
+        "slug": "cookbook/setup"
+    },
+    {
+        "slug": "cookbook/architecture"
+    },
+    {
+        "slug": "cookbook/commands"
+    },
+    {
+        "slug": "cookbook/components"
+    },
+    {
+        "slug": "cookbook/persistence"
+    },
+    {
+        "slug": "cookbook/tickets"
+    },
+    {
+        "slug": "cookbook/queue"
+    },
+    {
+        "slug": "cookbook/operations"
+    },
+    {
+        "slug": "cookbook/laboratory"
+    },
+    {
+        "slug": "cookbook/api-map"
+    }
+]
     },
     {
         "label": "Reference",

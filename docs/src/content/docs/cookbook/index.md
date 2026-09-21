@@ -1,12 +1,21 @@
 ---
-title: "Cookbook"
-description: "Complete recipes you can run and adapt."
-tableOfContents: false
+title: Cookbook
+description: "A useful bot, built and explained step by step."
 ---
 
-<div class="doc-grid">
-<a href="/getting-started/first-bot/"><strong>Your first bot</strong><span>Create the application, install it and run /ping.</span></a>
-<a href="/cookbook/support-bot/"><strong>Support bot</strong><span>Publish an interactive help panel with FAQs and links.</span></a>
-<a href="/guides/deployment/"><strong>Keep it online</strong><span>Build a binary and supervise the Gateway process.</span></a>
-<a href="/guides/troubleshooting/"><strong>Troubleshooting</strong><span>Diagnose connection, registration and response errors.</span></a>
-</div>
+Build a Go support desk from the Discord connection to persistent tickets, authorization, testing and operations. Every chapter has a runnable outcome and an exercise.
+
+**Start with the [project and learning path](/cookbook/support-bot/).**
+
+- [01 · Prepare and connect the bot](/cookbook/setup/)
+- [02 · Organize the Go application](/cookbook/architecture/)
+- [03 · Commands and options](/cookbook/commands/)
+- [04 · Panel, components and permissions](/cookbook/components/)
+- [05 · Build the JSON store](/cookbook/persistence/)
+- [06 · Open and track tickets](/cookbook/tickets/)
+- [07 · Filters, pages and autocomplete](/cookbook/queue/)
+- [08 · Test and operate the bot](/cookbook/operations/)
+- [09 · Explore the remaining API](/cookbook/laboratory/)
+- [API coverage map](/cookbook/api-map/)
+
+The compact original remains in `examples/support-bot`; this course uses `examples/community-bot`. Its JSON repository belongs to the example, not the library API.

@@ -38,4 +38,6 @@ jobs:
           cache: pnpm
           cache-dependency-path: docs/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
+      - name: Verify cookbook source blocks
+        run: python3 ../scripts/sync-cookbook.py --check
       - run: pnpm build
